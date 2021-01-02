@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viweport" content="width=device-width, inicital-scale=1.0">
+        <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <title>CoinMarketCap</title>
+        <link rel="icon" type="image/x-icon" href="img/favicon.icon">        
+    </head>
+    <body>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                <h1><strong>Coin Market Cap</strong></h1></li> 
+            </ol>
+        </nav>
+        
+        <div class="d-flex p-3 bd-highlight">
+            <div id='coins'></div>
+        </div>
+       
+        <script type="text/javascript">
+            //My api key
+            var apikey = {
+                key: '01b1bd30-6268-455a-8f03-a721293289cd'
+            }
+
+            //GET Fetch Requisition
+            fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY=' + apikey.key)   
+                    .then((response) => {
+                        if(!response.ok) throw new Error('Erro ao executar a requisição, status ' + response.status);
+                        return response.json();
+                })
+                .then((api) => {
+                    
+                    var text = '';
+                    
+                    text = text + `<table class="table table-striped" style="position : absolute;
+                                                                            right: 3px; 
+                                                                            text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th>Rank #</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Symbol</th>
+                                    <th>First Historical Data</th>  
+                                </tr>
+                            </thead>
+
+                            <tbody>`;
+
+                    // Get 10 coins and symbols 
+                    for(let i = 0; i < 10; i++){
+
+                    //Show API information
+              
+                    date = new Date(api.data[i].first_historical_data);
+                    auxImg = i+1;
+                    var src = 'https://s2.coinmarketcap.com/static/img/coins/64x64/' + auxImg +'.png',
+                        img = document.createElement('img');
+                        img.src = src;
+                        //coinimg = document.body.appendChild(img);
+                    text = text + `
+                        <div class="media">
+                            <tr>
+                                <td style='vertical-align:middle;'> ${auxImg}  </td>
+                                <td style='vertical-align:middle;'> 
+                                        <p> <img src= ${img.src}  alt=${api.data[i].name}> </p> 
+                                    </td>   
+                                <div class="media-body">
+                                    <td style='vertical-align:middle'> 
+                                        <h5 class="mt-2">${api.data[i].name}</h5> 
+                                    </td>
+                                    <td style='vertical-align:middle;'> <p>${api.data[i].symbol}</p> </td>
+                                    <td style='vertical-align:middle;'> <p>${date}</p> </td>
+                                </div>
+                            </tr>
+                        `;
+                    }
+
+                    document.getElementById("coins").innerHTML = text+'</table>';
+                            
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                }
+            );
+        </script>   
+    </body>
+</html>
