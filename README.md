@@ -23,6 +23,11 @@ It is a page to request crypto currencies data from CoinMarketCap API, following
 - Coinmarketcap tab icon added.
 - The layout was whole changed, the content is ordered by a table.
 	
+	
+### Orientations:
+- To be able to do requests from CoinMarketCap API is needed on your browser to install "Moesif Origin & CORS Changer" extension and turn on.
+- Open an account on CoinMarketCap and get the key there for to put in line 26 on "index.html".
+
 
 ### Useful API links in Coin Market Cap <br>
 [Portal do desenvolvedor](https://pro.coinmarketcap.com/account) <br>
